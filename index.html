@@ -1,23 +1,289 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-       aespa
-    </title>
+  <meta charset="utf-8" />
+  <title>Página no responsiva - Ejemplo</title>
+  <!-- Nota: No hay meta viewport para enfatizar la naturaleza no responsiva -->
+  <style>
+    /* Reset mínimo */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Fondo general */
+    body {
+      background: linear-gradient(180deg,#0f1724 0%, #071226 100%);
+      color: #e6eef8;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      /* ancho fijo: la página NO se adapta a pantallas pequeñas */
+      width: 1100px;
+      margin: 24px auto;
+      border: 8px solid #071122;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+    }
+
+    /* Header */
+    header {
+      height: 120px;
+      background: linear-gradient(90deg,#0b3a66,#0b2440);
+      display: block;
+      padding: 20px 32px;
+      border-bottom: 4px solid rgba(255,255,255,0.03);
+    }
+    .logo {
+      float: left;
+      width: 220px;
+      height: 80px;
+      background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 6px, transparent 6px 12px);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 20px;
+      color: #cfe8ff;
+    }
+    nav {
+      float: right;
+      margin-top: 18px;
+    }
+    nav a {
+      display: inline-block;
+      text-decoration: none;
+      color: #bfe0ff;
+      margin-left: 20px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.03);
+      font-weight: 600;
+    }
+    nav a:hover { background: rgba(255,255,255,0.04); }
+
+    /* Limpia floats del header */
+    header::after { content: ""; display: table; clear: both; }
+
+    /* Contenedor principal: layout fijo con columnas */
+    .main {
+      display: block;
+      padding: 28px 32px;
+    }
+
+    /* Hero (imagen simulada) */
+    .hero {
+      width: 100%;
+      height: 280px;
+      background: linear-gradient(90deg, rgba(18,100,160,0.95), rgba(10,40,70,0.95));
+      border-radius: 8px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero .titulo {
+      position: absolute;
+      left: 36px;
+      top: 36px;
+      color: #f0fbff;
+      font-size: 36px;
+      font-weight: 800;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+    .hero .sub {
+      position: absolute;
+      left: 36px;
+      top: 90px;
+      color: #cfe8ff;
+      font-size: 16px;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    /* Layout: columna principal + sidebar con anchos fijos */
+    .content {
+      margin-top: 16px;
+    }
+    .main-col {
+      float: left;
+      width: 740px; /* fijo */
+      margin-right: 20px;
+    }
+    .sidebar {
+      float: right;
+      width: 300px; /* fijo */
+    }
+
+    /* Tarjeta de artículo */
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.03);
+      padding: 18px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+    }
+    .card h2 {
+      font-size: 20px;
+      color: #e9f6ff;
+      margin-bottom: 8px;
+    }
+    .card p {
+      color: #cfe8ff;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* Mini-grid fijo dentro de main-col */
+    .grid-row {
+      margin-top: 12px;
+      display: block;
+    }
+    .grid-item {
+      float: left;
+      width: 360px;
+      height: 140px;
+      margin-right: 20px;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .grid-item:nth-child(2n) { margin-right: 0; }
+
+    /* Sidebar widgets */
+    .widget {
+      margin-bottom: 18px;
+      padding: 14px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+    .widget h3 {
+      font-size: 16px;
+      color: #dff6ff;
+      margin-bottom: 10px;
+    }
+    .list {
+      list-style: none;
+    }
+    .list li {
+      padding: 6px 0;
+      color: #cfe8ff;
+      font-size: 13px;
+      border-bottom: 1px dashed rgba(255,255,255,0.02);
+    }
+
+    /* Footer (fijo en altura) */
+    footer {
+      clear: both;
+      margin-top: 28px;
+      padding: 18px 32px;
+      background: linear-gradient(90deg,#071226,#04131b);
+      border-top: 4px solid rgba(255,255,255,0.02);
+      color: #98cbe3;
+    }
+    .footer-left { float: left; }
+    .footer-right { float: right; }
+
+    /* Aseguramos que los floats se limpien */
+    .main::after, .content::after { content: ""; display: table; clear: both; }
+
+    /* Estilos decorativos (no responsivos) */
+    .tag {
+      display: inline-block;
+      padding: 6px 8px;
+      font-size: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+      color: #cdf0ff;
+      margin-right: 8px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    /* Nota: NO hay media queries ni unidades relativas importantes (rems limitados) */
+  </style>
 </head>
 <body>
-    <h1>
-        AESPA
-    </h1>
-    <h2>
-        K-pop Girl Group
-    </h2>
-    <h6>
-        Toda una experiencia virtual
-    </h6>
-    <p>Aespa es un grupo femenino surcoreano formado por SM Entertainment. <br>El grupo está compuesto por cuatro integrantes: Karina, Giselle, Winter y Ningning. <br> El grupo debutó el 17 de noviembre de 2020 con el sencillo «Black Mamba».</p>
-    <img src="https://i.scdn.co/image/ab6761610000e5eb927f1260251e32135287e032">
+  <header>
+    <div class="logo">MiSitio ⛓️</div>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="#">Proyectos</a>
+      <a href="#">Galería</a>
+      <a href="#">Contacto</a>
+    </nav>
+  </header>
+
+  <div class="main">
+    <div class="hero">
+      <div class="titulo">Bienvenido a la página no responsiva</div>
+      <div class="sub">Diseño con anchos y alturas fijos: ideal para demostraciones, vitrinas o proyectos donde
+      quieras controlar exactamente cómo se ve la página en escritorio. No hay JavaScript, ni adaptabilidad.</div>
+    </div>
+
+    <div class="content">
+      <div class="main-col">
+        <div class="card">
+          <h2>Artículo destacado</h2>
+          <p>Este bloque representa el contenido principal. Todas las cajas y columnas usan tamaños fijos en pixeles,
+          por lo que si reduces el ancho de la ventana la página no refluye correctamente — eso es intencional.</p>
+          <div style="margin-top:12px;">
+            <span class="tag">Diseño</span>
+            <span class="tag">No-Responsive</span>
+            <span class="tag">Demo</span>
+          </div>
+        </div>
+
+        <div class="grid-row">
+          <div class="grid-item card">
+            <strong>Elemento A</strong>
+            <p style="margin-top:8px;">Caja fija 360×140 px para mostrar componentes, mini-portfolio o promos.</p>
+          </div>
+          <div class="grid-item card">
+            <strong>Elemento B</strong>
+            <p style="margin-top:8px;">Usa medidas exactas para controlar la composición del layout.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Texto largo de ejemplo</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque, itaque? Exercitationem beatae
+          inventore, repellendus atque, quidem voluptate nulla odit pariatur ullam iste. Consequuntur, molestiae.
+          Laborum, doloribus, possimus. Quae, recusandae.</p>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="widget">
+          <h3>Información</h3>
+          <ul class="list">
+            <li>Ubicación: Ciudad fija</li>
+            <li>Versión: 1.0 (no adaptable)</li>
+            <li>Contactos: contacto@ejemplo.local</li>
+          </ul>
+        </div>
+
+        <div class="widget">
+          <h3>Enlaces rápidos</h3>
+          <ul class="list">
+            <li>Portafolio</li>
+            <li>Servicios</li>
+            <li>Soporte</li>
+          </ul>
+        </div>
+
+        <div class="widget">
+          <h3>Acciones</h3>
+          <p style="font-size:13px; color:#cfe8ff;">(Botones estáticos simulados — sin JS)</p>
+          <div style="margin-top:8px;">
+            <div style="padding:10px; background:rgba(255,255,255,0.02); border-radius:6px; text-align:center; margin-bottom:8px;">Descargar</div>
+            <div style="padding:10px; background:rgba(255,255,255,0.02); border-radius:6px; text-align:center;">Aprender más</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">© 2025 MiSitio — Diseño estático</div>
+    <div class="footer-right">Hecho con HTML + CSS</div>
+  </footer>
 </body>
 </html>
