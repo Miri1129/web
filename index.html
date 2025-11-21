@@ -215,9 +215,98 @@
       header { flex-direction: column; }
       nav a { margin: 8px; display: inline-block; }
     }
+
+
+    /* 1. Estilos Base */
+body {
+    cursor: none; /* Oculta el cursor predeterminado */
+    height: 100vh;
+    background-color: #1a1a1a; /* Fondo oscuro para que el neón resalte */
+    margin: 0;
+    overflow: hidden; /* Evita barras de desplazamiento */
+}
+
+/* Estilo de ejemplo para los enlaces */
+a {
+    color: white;
+    text-decoration: none;
+    font-family: sans-serif;
+    margin: 20px;
+    display: inline-block;
+}
+
+/* 2. Estilo para el cursor personalizado (el círculo) */
+.cursor-neon {
+    --cursor-size: 20px; /* Tamaño por defecto */
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    border-radius: 50%; /* Para que sea un círculo perfecto */
+    background-color: #39ff14; /* Color verde neón */
+    pointer-events: none; /* Permite que los clics pasen a través del elemento */
+    position: fixed; /* Posición absoluta con respecto a la ventana */
+    z-index: 9999; /* Asegura que esté por encima de otros elementos */
+    transform: translate(-50%, -50%); /* Centra el círculo en el puntero del ratón */
+    
+    /* Efecto neón */
+    box-shadow: 
+        0 0 5px #39ff14, 
+        0 0 15px #39ff14, 
+        0 0 30px #39ff14, 
+        0 0 50px #39ff14;
+    
+    /* Transición suave para el movimiento y los cambios de tamaño (animación) */
+    transition: 
+        transform 0.1s ease-out, /* Suaviza el movimiento del seguimiento */
+        width 0.1s ease-out, 
+        height 0.1s ease-out; 
+}
+
+/* 3. Estilo de Animación (Hover) */
+
+/* Esta clase se añade con JavaScript al pasar sobre un elemento interactivo (como un enlace) */
+.cursor-neon.hover {
+    --cursor-size: 35px; /* Aumenta el tamaño para que sea más notable */
+    opacity: 0.8; /* Lo hace un poco transparente */
+}
+
+    
   </style>
 </head>
 <body>
+
+
+<div class="cursor-neon"></div>
+
+    <a href="#">Pasa el ratón aquí</a>
+
+    <script>
+        // 1. Obtener el elemento del cursor
+        const cursor = document.querySelector('.cursor-neon');
+        
+        // 2. Escuchar el movimiento del ratón
+        document.addEventListener('mousemove', e => {
+            // Establecer la posición del cursor personalizado para que siga al ratón
+            // La transición suave se maneja en el CSS
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // 3. Añadir animación de hover para elementos interactivos
+        // Puedes añadir más selectores (por ejemplo, 'button') si tienes más elementos interactivos
+        const links = document.querySelectorAll('a, button, .interactive');
+        
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover'); // Añade la clase CSS 'hover'
+            });
+            link.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover'); // Remueve la clase CSS 'hover'
+            });
+        });
+    </script>
+
+
+  
   <header>
     <div class="logo">æspa ✦</div>
     <nav>
